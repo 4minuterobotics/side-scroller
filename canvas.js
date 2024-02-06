@@ -5,8 +5,9 @@ console.log(context);
 canvas.width = 1024;
 canvas.height = 576;
 
-context.fillStyle = "black";
-context.fillRect(0, 0, canvas.width, canvas.height);
+const Gravity = 1;
+
+let player;
 
 function getWidth() {
   return canvas.width;
@@ -25,6 +26,9 @@ class Player {
     this.position = {
       x: getWidth() / 2,
       y: getHeight() / 2,
+    };
+    this.velocity = {
+      y: 2,
     };
     this.debug = false; //debug mode is initially off
   }
@@ -58,9 +62,22 @@ main();
 
 function main() {
   init();
+  animate();
 }
 
 function init() {
-  let player = new Player(20, 20);
+  player = new Player(20, 20);
+}
+
+function animate() {
+  window.requestAnimationFrame(animate);
+
+  context.fillStyle = "black";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
   player.add();
+  player.setPosition(player.position.x, player.position.y + player.velocity.y);
+  // player.position.y += player.velocity.y;
+
+  player.velocity.y += Gravity;
 }
