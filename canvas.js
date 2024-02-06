@@ -28,8 +28,10 @@ class Player {
       y: getHeight() / 2,
     };
     this.velocity = {
-      y: 2,
+      y: 0,
+      x: 0,
     };
+    this.speed = 5;
     this.debug = false; //debug mode is initially off
   }
 
@@ -76,8 +78,52 @@ function animate() {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   player.add();
-  player.setPosition(player.position.x, player.position.y + player.velocity.y);
+  player.setPosition(
+    player.position.x + player.velocity.x,
+    player.position.y + player.velocity.y
+  );
   // player.position.y += player.velocity.y;
 
-  player.velocity.y += Gravity;
+  player.velocity.y += Gravity; // set this to zero when creating and debugging x movement.
 }
+
+/////////////////////////////////
+// Function to be called when a key is pressed
+function handleKeyPressed(event) {
+  console.log("Key pressed:", event.key);
+  if (event.key == "ArrowUp") {
+    player.velocity.y -= 20;
+    console.log(player.velocity.y);
+  } else if (event.key == "ArrowLeft") {
+    player.velocity.x = -player.speed;
+  } else if (event.key == "ArrowRight") {
+    player.velocity.x = player.speed;
+  }
+}
+
+// Function to attach event listener for keydown event
+function keyDownMethod(callback) {
+  window.addEventListener("keydown", callback);
+}
+
+// Call keyDownMethod and pass logKeyPressed as the callback
+keyDownMethod(handleKeyPressed);
+
+//Function to be called when a key is released
+function handleKeyReleased(event) {
+  console.log("Key released:", event.key);
+  if (event.key == "ArrowUp") {
+  } else if (event.key == "ArrowLeft") {
+    player.velocity.x = 0;
+  } else if (event.key == "ArrowRight") {
+    player.velocity.x = 0;
+  }
+}
+
+// Function to attach event listener for keydown event
+function keyUpMethod(callback) {
+  window.addEventListener("keyup", callback);
+}
+
+// Call keyDownMethod and pass logKeyPressed as the callback
+keyUpMethod(handleKeyReleased);

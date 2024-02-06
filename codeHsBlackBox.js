@@ -376,3 +376,31 @@ function mouseMoveMethod(callback) {
 
 // Call the mouseMoveMethod and pass logMessage as the callback
 mouseMoveMethod(logMessage);
+
+/////////////////////////////////////////////////////////////////////////
+//Function to be called when a key is press
+function handleKeyPressed(event) {
+  console.log("Key pressed:", event.key);
+}
+
+// Function to attach event listener for keydown event
+function keyDownMethod(callback) {
+  window.addEventListener("keydown", callback);
+}
+
+// Call keyDownMethod and pass logKeyPressed as the callback
+keyDownMethod(handleKeyPressed);
+
+////////////////////////////////////////////////////////////////////////////
+//Function to be called when a key is released
+function handleKeyReleased(event) {
+  console.log("Key released:", event.key);
+}
+
+// Function to attach event listener for keydown event
+function keyUpMethod(callback) {
+  window.addEventListener("keyup", callback);
+}
+
+// Call keyDownMethod and pass logKeyPressed as the callback
+keyUpMethod(handleKeyReleased);
