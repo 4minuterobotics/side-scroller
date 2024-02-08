@@ -7,7 +7,9 @@ canvas.height = 576;
 
 const Gravity = 1;
 
+//game objects
 let player;
+let platform;
 
 function getWidth() {
   return canvas.width;
@@ -51,12 +53,40 @@ class Player {
 
   add() {
     this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
+    this.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
+class Platform {
+  constructor(width, height, color = "green") {
+    this.ctx = context;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.position = {
+      x: getWidth() / 2,
+      y: getHeight() / 2,
+    };
+    this.debug = false; //debug mode is initially off
+  }
+
+  setColor(color) {
+    this.color = color;
+  }
+
+  setPosition(x, y) {
+    this.position.x = x;
+    this.position.y = y;
+  }
+
+  setSize(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  add() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }
 
@@ -69,6 +99,7 @@ function main() {
 
 function init() {
   player = new Player(20, 20);
+  platform = new Platform(200, 20);
 }
 
 function animate() {
@@ -77,6 +108,12 @@ function animate() {
   context.fillStyle = "black";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
+  platform.add();
+  platform.setPosition(
+    getWidth() / 2 - platform.width / 2,
+    getHeight() - platform.height
+  );
+
   player.add();
   player.setPosition(
     player.position.x + player.velocity.x,
@@ -84,7 +121,23 @@ function animate() {
   );
   // player.position.y += player.velocity.y;
 
-  player.velocity.y += Gravity; // set this to zero when creating and debugging x movement.
+  //how to make the player fall if its above the bottom of the canvas
+  if (player.position.y + player.height + player.velocity.y <= getHeight() + 10) {
+    player.velocity.y += Gravity; // set this to zero when creating and debugging x movement.
+  } else {
+    player.velocity.y = 0;
+    console.log(player.position.y);
+  }
+
+  //falling to platform collision
+  if (
+    player.position.y + player.height + player.velocity.y >= platform.position.y &&
+    player.position.x + player.width >= platform.position.x &&
+    player.position.x <= platform.position.x + platform.width
+  ) {
+    player.velocity.y = 0;
+    player.position.y = platform.position.y - player.height;
+  }
 }
 
 /////////////////////////////////

@@ -99,8 +99,7 @@ function stopTimer(callback) {
 // Set the timer to repeatedly call doThis at an interval of 'delay' milliseconds
 setTimer(doThis, delay);
 
-///////////////////////////////////////////////////////////////////////////////// /*intro to objects*/
-//create this one as as class
+//////////////////////////////////////////////////////////////////////////////// Objects
 let bus1 = {
   //properties
   make: "Ford",
@@ -129,11 +128,7 @@ bus1.handleTrainTracks();
 bus1.setColor("blue");
 console.log(bus1.color);
 
-////////////////////////////////////////////////////////////////////////////// Intro to classes
-// make class create a 2nd bus object, changing the make, model, and number of windows
-// explain the problem of having to make 50 of these, only changing the make, model, and number of windows
-// what if there was code to create a bus by saying let bus1 = new Bus ("ford", "mustang", 25)
-// show the class how to create a class of buses
+////////////////////////////////////////////////////////////////////////////// Classes
 class Bus {
   constructor(make, model, numWindows) {
     //properties
